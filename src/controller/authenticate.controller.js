@@ -38,7 +38,7 @@ export const sign_in_user = async (req, res) => {
         const [result] = await pool.query("CALL sign_in (?,?)",
              [email,token])
 
-             if (result[0]?.[0]?.mensaje  === "Invalid credentials") {
+             if (result[0]?.[0]?.successful_message  === "Invalid credentials") {
                 return res.status(400).json({ message: "Invalid credentials"});
 
               } else {
