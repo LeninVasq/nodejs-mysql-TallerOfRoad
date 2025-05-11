@@ -11,14 +11,14 @@ export const getUsersType = async (req, res) => {
 }
 
 export const createUserType = async (req, res) => {
-    const { nombre } = req.body
+    const { name } = req.body
     try {
-        const [result] = await pool.query("INSERT INTO tipo_usuario (nombre) VALUES (?)", [nombre])
+        const [result] = await pool.query("INSERT INTO tipo_usuario (nombre) VALUES (?)", [name])
 
         res.send({
             id: result.insertId,
-            nombre,
-            message: "Tipo de usuario Creado"
+            name,
+            message: "user type created"
         });
     } catch (error) {
         return res.status(500).json({ message: "Something went wrong while creating the user type." })
