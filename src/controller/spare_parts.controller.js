@@ -1,9 +1,9 @@
 import { pool } from "../db.js";
 
 
-export const getSparePartCategory = async (req, res) => {
+export const getSparePart = async (req, res) => {
     try {
-        const [spare_parts_category_Get] = await pool.query("SELECT * FROM categorias_repuestos")
+        const [spare_parts_category_Get] = await pool.query("SELECT * FROM repuestos")
         res.send(spare_parts_category_Get);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" })
@@ -11,16 +11,16 @@ export const getSparePartCategory = async (req, res) => {
 }
 
 
-export const Created_Spare_parts_Category = async (req, res) => {
+export const Create_spare_parts = async (req, res) => {
     const { name } = req.body
     const {description} = req.body
     const {photo} = req.body
+    const {sub_category_id} = req.body
 
     try {
-        const [result] = await pool.query("CALL Created_Spare_parts_Category (?,?,?)",
-             [name, description,photo])
+        const [result] = await pool.query("CALL Create_spare_parts (?,?,?,?)",
+             [name, description,photo, sub_category_id])
 
-        
         res.json(result[0][0]);
     } catch (error) {
         console.log(error)
@@ -28,11 +28,11 @@ export const Created_Spare_parts_Category = async (req, res) => {
     }
 }
 
-export const get_Spare_Parts_Category_Id = async (req, res) => {
+export const get_Spare_Parts_Id = async (req, res) => {
     const { id } = req.params
     try {
-        const [Spare_parts_category] = await pool.query("SELECT * FROM categorias_repuestos where id_categorias_repuestos = ?", [id])
-        if (Spare_parts_category.length === 0) return res.status(404).json({ message: "Spare parts category not found" })
+        const [Spare_parts_category] = await pool.query("SELECT * FROM repuestos where id_repuestos = ?", [id])
+        if (Spare_parts_category.length === 0) return res.status(404).json({ message: "Spare parts not found" })
         res.json(Spare_parts_category[0]);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" })
@@ -42,12 +42,13 @@ export const get_Spare_Parts_Category_Id = async (req, res) => {
 
 
 
-export const delete_Spare_Parts_Category_Id = async (req, res) => {
+export const delete_Spare_Parts_Id = async (req, res) => {
     const { id } = req.params
     try {
-        const [Spare_parts_category] = await pool.query("delete FROM categorias_repuestos where id_categorias_repuestos = ?", [id])
-        if (Spare_parts_category.affectedRows === 0) return res.status(404).json({ message: "Spare parts category not found" })
-        res.json({ message: "category of spare parts eliminated successfully" });
+        const [Spare_parts] = await pool.query("delete FROM repuestos where id_repuestos = ?", [id])
+        if (Spare_parts.affectedRows === 0) return res.status(404).json({ message: "Spare parts not found" })
+        console.log(Spare_parts)
+            res.json(Spare_parts[0]);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" })
 
@@ -55,7 +56,7 @@ export const delete_Spare_Parts_Category_Id = async (req, res) => {
 }
 
 
-
+//falta el update de repuestos
 export const Update_Spare_parts_Category = async (req, res) => {
     const { id } = req.params
     const { name } = req.body
