@@ -3,7 +3,7 @@ import {config} from 'dotenv';
 config()
 
 export const PORT  = process.env.PORT || 3000
-export const HOST  = process.env.HOST || "localhost"
+export const HOST  = process.env.HOST || "192.168.0.129"
 export const DB_USER = process.env.DB_USER || "root"
 export const DB_PASSWORD = process.env.DB_PASSWORD || ""
 export const DB_HOST = process.env.DB_URL || "localhost"
