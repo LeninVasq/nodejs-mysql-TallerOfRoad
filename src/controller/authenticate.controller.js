@@ -5,6 +5,20 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
+
+export const close_session = async (req, res) => {
+    const {id} = req.body;
+    try {
+        const [result] = await pool.query("CALL close_session (?)", [id]);
+        if (result.affectedRows <= 0) return res.status(404).json({ message: "could not close session" })
+
+        res.json(result[0][0]);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Something went wrong while closing the session." });
+    }
+}
+
 export const sign_up_user = async (req, res) => {
     const { name } = req.body
     const {last_name} = req.body
@@ -21,7 +35,7 @@ export const sign_up_user = async (req, res) => {
              [name, last_name,email,hashedPassword,phone,id_user_type, status])
 
         
-        res.json(result[0]);
+        res.json(result[0][0]);
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message: "Something went wrong while creating the user." })

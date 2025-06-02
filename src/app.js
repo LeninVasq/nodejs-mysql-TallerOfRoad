@@ -8,13 +8,14 @@ import SubCategryRoutes from "./routes/sub_category.route.js"
 import SparepartsRoutes from "./routes/spare_parts.route.js"
 const app = express();
 
-app.use(express.json())
+app.use(express.json({ limit: '100mb' }));
 
 app.use(cors({
     origin: 'http://localhost:8081', // aquí va la URL de tu frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, // si usas cookies o sesiones
   }));
+
 
 app.use("/api",SparepartsRoutes)
 app.use("/api",SubCategryRoutes)

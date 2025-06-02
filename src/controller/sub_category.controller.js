@@ -32,9 +32,9 @@ export const Create_sub_category = async (req, res) => {
 export const get_Sub_Category_Id = async (req, res) => {
     const { id } = req.params
     try {
-        const [Sub_category_id] = await pool.query("SELECT * FROM sub_categorias where id_sub_categorias = ?", [id])
+        const [Sub_category_id] = await pool.query("SELECT * FROM sub_categorias where id_categorias_repuestos = ?", [id])
         if (Sub_category_id.length === 0) return res.status(404).json({ message: "Sub category not found" })
-        res.json(Sub_category_id[0]);
+        res.json(Sub_category_id);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" })
 

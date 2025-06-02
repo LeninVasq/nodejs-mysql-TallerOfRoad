@@ -28,12 +28,25 @@ export const Create_spare_parts = async (req, res) => {
     }
 }
 
+
 export const get_Spare_Parts_Id = async (req, res) => {
     const { id } = req.params
     try {
-        const [Spare_parts_category] = await pool.query("SELECT * FROM repuestos where id_repuestos = ?", [id])
-        if (Spare_parts_category.length === 0) return res.status(404).json({ message: "Spare parts not found" })
-        res.json(Spare_parts_category[0]);
+        const [Spare_parts] = await pool.query("SELECT * FROM repuestos where id_sub_categorias = ?", [id])
+        if (Spare_parts.length === 0) return res.status(404).json({ message: "Spare parts not found" })
+        res.json(Spare_parts);
+    } catch (error) {
+        return res.status(500).json({ message: "Something goes wrong" })
+
+    }
+}
+
+export const get_Spare_Parts_Id_Category = async (req, res) => {
+    const { id } = req.params
+    try {
+        const [Spare_parts] = await pool.query("SELECT * FROM repuestos where id_sub_categorias = ?", [id])
+        if (Spare_parts.length === 0) return res.status(404).json({ message: "Spare parts not found" })
+        res.json(Spare_parts);
     } catch (error) {
         return res.status(500).json({ message: "Something goes wrong" })
 
