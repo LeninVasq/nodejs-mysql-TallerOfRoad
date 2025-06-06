@@ -12,12 +12,12 @@ export const getCompanies = async (req, res) => {
 
 // Create a new company
 export const createCompany = async (req, res) => {
-    const { Nombre_empresas, Estado, Direccion, Telefono, Correo, NIT, Descripcion } = req.body;
+    const { Nombre_empresas, Direccion, Telefono, Correo, NIT, Descripcion } = req.body;
     try {
         const [result] = await pool.query(
             `INSERT INTO Empresas (Nombre_empresas, Estado, Direccion, Telefono, Correo, NIT, Descripcion)
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [Nombre_empresas, Estado, Direccion, Telefono, Correo, NIT, Descripcion]
+            [Nombre_empresas, 1, Direccion, Telefono, Correo, NIT, Descripcion]
         );
         res.send({
             id: result.insertId,
@@ -70,8 +70,10 @@ export const updateCompanyById = async (req, res) => {
             [Nombre_empresas, Estado, Direccion, Telefono, Correo, NIT, Descripcion, id]
         );
         if (result.affectedRows === 0) return res.status(404).json({ message: "Company not found" });
-        res.sendStatus(204);
-    } catch (error) {
+res.send({
+            id: result.insertId,
+            message: "Company update successfully"
+        });    } catch (error) {
         return res.status(500).json({ message: "Error updating company." });
     }
 };
