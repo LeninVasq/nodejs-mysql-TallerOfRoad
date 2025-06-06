@@ -70,14 +70,14 @@ export const delete_Spare_Parts_Id = async (req, res) => {
 
 
 //falta el update de repuestos
-export const Update_Spare_parts_Category = async (req, res) => {
+export const Update_Spare_parts = async (req, res) => {
     const { id } = req.params
     const { name } = req.body
     const { description } = req.body
     const { photo } = req.body
     const { status } = req.body
     try {
-        const [result] = await pool.query("CALL Update_Spare_parts_Category (?,?,?,?,?)",
+        const [result] = await pool.query("CALL Update_Spare_parts (?,?,?,?,?)",
             [id,name, description,photo,status])
 
             if (result[0]?.[0]?.error_message  === "The spare parts category not exists") {
